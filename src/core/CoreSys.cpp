@@ -18,13 +18,11 @@ CoreSysModule::CoreSysModule() : CoreModule("System Info")
 
 void CoreSysModule::updateData()
 {
-    std::ostringstream oss;
-    oss << "Hostname: " << getHostname() << "\n";
-    oss << "Username: " << getUser() << "\n";
-    oss << "Kernel Version: " << getKernel() << "\n";
-    oss << "Shell: " << getShell();
-
-    data = oss.str();
+    data.clear();
+    data.push_back({"Hostname", getHostname()});
+    data.push_back({"Username", getUser()});
+    data.push_back({"Kernel Version", getKernel()});
+    data.push_back({"Shell", getShell()});
 }
 
 std::string CoreSysModule::getHostname() const

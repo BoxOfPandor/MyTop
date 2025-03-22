@@ -19,8 +19,9 @@ CoreTime::CoreTime() : CoreModule("Time Info")
 
 void CoreTime::updateData()
 {
-    data = "Current Date and Time: " + getCurrentDateTime() + "\n";
-    data += "Uptime: " + getUptime();
+    data.clear();
+    data.push_back({"Current Date and Time", getCurrentDateTime()});
+    data.push_back({"Uptime", getUptime()});
 }
 
 std::string CoreTime::getCurrentDateTime() const

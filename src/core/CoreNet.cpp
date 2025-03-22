@@ -24,19 +24,21 @@ CoreNetModule::CoreNetModule() : CoreModule("Network Info")
 
 void CoreNetModule::updateData()
 {
+    data.clear();
     std::vector<InterfaceInfo> interfaces = getInterfaces();
-    std::ostringstream oss;
-
+    
     for (const auto& iface : interfaces) {
         if (iface.name != "lo0") {
-            oss << iface.name << ":\n";
-            oss << "    Status: " << iface.status << "\n";
-            oss << "    MAC: " << iface.mac << "\n";
-            oss << "    RX bytes: " << iface.rx_bytes << "\n";
-            oss << "    TX bytes: " << iface.tx_bytes << "\n\n";
+            data.push_back({iface.name + " Status", iface.status});
+            data.push_back({iface.name + " MAC", iface.mac});
+            data.push_back({iface.name + " RX bytes", std::to_string(iface.rx_bytes)});
+            data.push_back({iface.name + " TX bytes", std::to_string(iface.tx_bytes)});
         }
     }
-    data = oss.str();
+    
+    if (data.empty()) {
+        data.push_back({"Network", "No interfaces found"});
+    }
 }
 
 std::vector<CoreNetModule::InterfaceInfo> CoreNetModule::getInterfaces() const

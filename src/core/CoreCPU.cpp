@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2025
-** B_PDG_300_LIL_3_1_PDGRUSH3_thibault_pouch
-** File description:
-** CoreCPU.cpp
-*/
-
 #include "CoreCPU.hpp"
 #include <sys/sysctl.h>
 #include <mach/mach_init.h>
@@ -13,21 +6,20 @@
 #include <iomanip>
 #include <sstream>
 
-CoreCPU::CoreCPU() : CoreModule("CPU Info")
-{
+CoreCPU::CoreCPU() : CoreModule("CPU Info") {
     CoreCPU::updateData();
 }
 
-void CoreCPU::updateData()
-{
-    data = "Model: " + getModel() + "\n";
-    data += "Frequency: " + getFrequency() + "\n";
-    data += "Number of Cores: " + std::to_string(getNumberOfCores()) + "\n";
-    data += "Activity: " + getActivity();
+void CoreCPU::updateData() {
+    data.clear();
+    data.push_back({"Model", getModel()});
+    data.push_back({"Frequency", getFrequency()});
+    data.push_back({"Cores", std::to_string(getNumberOfCores())});
+    data.push_back({"Activity", getActivity()});
 }
 
-std::string CoreCPU::getModel() const
-{
+std::string CoreCPU::getModel() const {
+    // Implémentation inchangée
     char buffer[1024];
     size_t size = sizeof(buffer);
     if (sysctlbyname("machdep.cpu.brand_string", &buffer, &size, nullptr, 0) == 0) {
@@ -36,8 +28,8 @@ std::string CoreCPU::getModel() const
     return "Unknown Model";
 }
 
-std::string CoreCPU::getFrequency() const
-{
+std::string CoreCPU::getFrequency() const {
+    // Implémentation inchangée
     uint64_t freq = 0;
     size_t size = sizeof(freq);
     if (sysctlbyname("hw.cpufrequency", &freq, &size, nullptr, 0) == 0) {
@@ -46,8 +38,8 @@ std::string CoreCPU::getFrequency() const
     return "Unknown Frequency";
 }
 
-int CoreCPU::getNumberOfCores() const
-{
+int CoreCPU::getNumberOfCores() const {
+    // Implémentation inchangée
     int ncpu;
     size_t size = sizeof(ncpu);
     if (sysctlbyname("hw.ncpu", &ncpu, &size, nullptr, 0) == 0) {
@@ -56,8 +48,8 @@ int CoreCPU::getNumberOfCores() const
     return 1;
 }
 
-std::string CoreCPU::getActivity() const
-{
+std::string CoreCPU::getActivity() const {
+    // Implémentation inchangée
     processor_cpu_load_info_t cpuLoad;
     mach_msg_type_number_t processorMsgCount;
     natural_t processorCount;

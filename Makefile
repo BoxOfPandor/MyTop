@@ -7,8 +7,8 @@
 
 SRC_DIR = .
 OBJ_DIR = obj
-CPP_FILES = $(wildcard core/*.cpp) \
-   	        main.cpp
+CPP_FILES = $(wildcard src/*.cpp) \
+			$(wildcard src/core/*.cpp)
 O_FILES = $(CPP_FILES:%.cpp=$(OBJ_DIR)/%.o)
 CPPFLAGS = -Wall -Wextra -std=c++17
 LDFLAGS = -lncurses -framework IOKit -framework CoreFoundation

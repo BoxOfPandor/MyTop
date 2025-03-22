@@ -15,12 +15,15 @@ CoreBatModule::CoreBatModule() : CoreModule("Battery Info")
 
 void CoreBatModule::updateData()
 {
+    data.clear();
+    
     if (!hasBattery()) {
-        data = "No battery found";
+        data.push_back({"Status", "No battery found"});
         return;
     }
-    data = "Status: " + getBatteryStatus() + "\n";
-    data += "Battery: " + getBatteryPercentage() + "%";
+    
+    data.push_back({"Status", getBatteryStatus()});
+    data.push_back({"Battery", getBatteryPercentage() + "%"});
 }
 
 bool CoreBatModule::hasBattery() const

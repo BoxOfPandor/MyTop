@@ -7,6 +7,7 @@
 
 #ifndef CORECPU_HPP
 #define CORECPU_HPP
+
 #include "CoreModule.hpp"
 #include <string>
 
@@ -22,4 +23,4 @@ private:
     std::string getActivity() const;
 };
 
-#endif //CORECPU_HPP
+#endif // CORECPU_HPP

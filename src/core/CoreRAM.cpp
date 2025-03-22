@@ -18,20 +18,20 @@ CoreRAM::CoreRAM() : CoreModule("RAM Info")
 
 void CoreRAM::updateData()
 {
+    data.clear();
     MemInfo info = getMemInfo();
     unsigned long used = info.total - info.free;
 
+    data.push_back({"Total RAM", formatSize(info.total)});
+    data.push_back({"Used RAM", formatSize(used)});
+    data.push_back({"Free RAM", formatSize(info.free)});
+    data.push_back({"Active", formatSize(info.active)});
+    data.push_back({"Inactive", formatSize(info.inactive)});
+    data.push_back({"Wired", formatSize(info.wired)});
+    
     std::ostringstream oss;
-    oss << "Total RAM: " << formatSize(info.total) << "\n";
-    oss << "Used RAM: " << formatSize(used) << "\n";
-    oss << "Free RAM: " << formatSize(info.free) << "\n";
-    oss << "Active: " << formatSize(info.active) << "\n";
-    oss << "Inactive: " << formatSize(info.inactive) << "\n";
-    oss << "Wired: " << formatSize(info.wired) << "\n";
-    oss << "Usage: " << std::fixed << std::setprecision(2) 
-        << (float)(used * 100) / info.total << "%";
-
-    data = oss.str();
+    oss << std::fixed << std::setprecision(2) << (float)(used * 100) / info.total << "%";
+    data.push_back({"Usage", oss.str()});
 }
 
 CoreRAM::MemInfo CoreRAM::getMemInfo() const
