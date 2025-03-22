@@ -1,12 +1,32 @@
-# Replace this with the path you get from `brew info sfml`
-SFML_PATH = /opt/homebrew/Cellar/sfml/2.5.1_2
+##
+## EPITECH PROJECT, 2023
+## makefile
+## File description:
+## Task 01 - make file
+##
 
-# Replace "src" with the name of the folder where all your cpp code is
-cppFileNames := $(shell find ./src -type f -name "*.cpp")
+SRC_DIR = .
+OBJ_DIR = obj
+CPP_FILES = $(wildcard core/*.cpp) \
+   	        main.cpp
+O_FILES = $(CPP_FILES:%.cpp=$(OBJ_DIR)/%.o)
+CPPFLAGS = -Wall -Wextra -std=c++17
+LDFLAGS = -lncurses -framework IOKit -framework CoreFoundation
+NAME = mytop
 
-all: compile
+all: ${NAME}
 
-compile:	
-	mkdir -p bin
-	g++ $(cppFileNames) -I$(SFML_PATH)/include -o bin/app -L$(SFML_PATH)/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+${NAME}: ${O_FILES}
+	$(CXX) -o ${NAME} ${O_FILES} ${CPPFLAGS} ${LDFLAGS}
 
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) -c -o $@ $< ${CPPFLAGS}
+
+clean:
+	rm -rf ${OBJ_DIR}
+
+fclean: clean
+	rm -f ${NAME}
+
+re: fclean all
