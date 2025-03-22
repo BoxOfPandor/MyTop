@@ -14,33 +14,41 @@
 #include <chrono>
 #include <thread>
 #include <ncurses.h>
+#include <map>
 #include "core/ICoreModule.hpp"
+#include "IDisplay.hpp"
 
-class TerminalDisplay {
+class TerminalDisplay : public IDisplay {
 public:
     TerminalDisplay();
     ~TerminalDisplay();
 
-    void init();
-    void addModule(std::shared_ptr<ICoreModule> module);
-    void refresh();
-    void handleInput();
-    bool shouldExit() const;
-    void cleanup();
+    void init() override;
+    void addModule(std::shared_ptr<ICoreModule> module) override;
+    void refresh() override;
+    void handleInput() override;
+    bool shouldExit() const override;
+    void cleanup() override;
 
 private:
     void drawModule(const std::shared_ptr<ICoreModule>& module, int startY, int startX, int width, int height);
     void calculateLayout();
+    void showModuleSelector();
+    void toggleModuleVisibility(int index);
 
     std::vector<std::shared_ptr<ICoreModule>> modules;
+    std::map<std::string, bool> moduleVisibility; // Pour suivre quels modules sont visibles
     bool exitFlag;
+    bool selectorMode; // Mode sélecteur activé ou non
     int refreshRate; // en millisecondes
+    int selectedModuleIndex; // Pour la navigation dans le sélecteur
     
     struct Layout {
         int rows;
         int cols;
         int moduleWidth;
         int moduleHeight;
+        int modulesPerRow;
     } layout;
 };
 
