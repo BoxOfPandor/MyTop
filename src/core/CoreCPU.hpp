@@ -10,6 +10,7 @@
 
 #include "CoreModule.hpp"
 #include <string>
+#include <vector>
 
 class CoreCPU : public CoreModule {
 public:
@@ -21,6 +22,7 @@ private:
     std::string getFrequency() const;
     int getNumberOfCores() const;
     std::string getActivity() const;
+    std::vector<std::string> getPerCoreActivity() const;
 };
 
 #endif // CORECPU_HPP
