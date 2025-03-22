@@ -12,6 +12,8 @@ CPP_FILES = $(wildcard src/*.cpp) \
 O_FILES = $(CPP_FILES:%.cpp=$(OBJ_DIR)/%.o)
 CPPFLAGS = -Wall -Wextra -std=c++17
 LDFLAGS = -lncurses -framework IOKit -framework CoreFoundation
+SFML_PATH = /opt/homebrew/Cellar/sfml@2/2.6.2_1
+SFMLFLAGS = I$(SFML_PATH)/include -o bin/app -L$(SFML_PATH)/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 NAME = mytop
 
 all: ${NAME}
@@ -21,7 +23,7 @@ ${NAME}: ${O_FILES}
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) -c -o $@ $< ${CPPFLAGS}
+	$(CXX) -c -o $@ $< ${CPPFLAGS} ${SFMLFLAGS}
 
 clean:
 	rm -rf ${OBJ_DIR}
